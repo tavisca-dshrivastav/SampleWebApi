@@ -1,0 +1,14 @@
+C:\Users\dshrivastav\Music\WebApi\WebApi\bin\Release\netcoreapp2.2\WebApi.deps.json
+C:\Users\dshrivastav\Music\WebApi\WebApi\bin\Release\netcoreapp2.2\WebApi.runtimeconfig.json
+C:\Users\dshrivastav\Music\WebApi\WebApi\bin\Release\netcoreapp2.2\WebApi.runtimeconfig.dev.json
+C:\Users\dshrivastav\Music\WebApi\WebApi\bin\Release\netcoreapp2.2\WebApi.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi\bin\Release\netcoreapp2.2\WebApi.pdb
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.csprojAssemblyReference.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.csproj.CoreCompileInputs.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.RazorAssemblyInfo.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.RazorAssemblyInfo.cs
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.AssemblyInfoInputs.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.AssemblyInfo.cs
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.RazorTargetAssemblyInfo.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Release\netcoreapp2.2\WebApi.pdb
