@@ -4,7 +4,7 @@ pipeline{
     stages{
         stage('build'){
             steps{
-                git clone "https://github.com/tavisca-dshrivastav/SampleWebApi.git"
+                sh'git clone "https://github.com/tavisca-dshrivastav/SampleWebApi.git"'
             }
         }
     }
