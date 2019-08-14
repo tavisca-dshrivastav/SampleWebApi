@@ -1,5 +1,8 @@
 
 pipeline{
+    environment{
+        $RELEASE_ENVIRONMENT = params.RELEASE_ENVIRONMENT
+    }
     agent {label 'master'}
     parameters{
         string(
