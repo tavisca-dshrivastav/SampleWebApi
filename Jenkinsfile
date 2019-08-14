@@ -5,26 +5,26 @@ pipeline{
     }
     agent {label 'master'}
     paramenters{
-        string{
+        string(
             name: "GIT_HTTPS_PATH",
             defaultValue: "https://github.com/tavisca-dshrivastav/SampleWebApi.git",
             description: "GIT HTTPS PATH"
-        }
-        string{
+        )
+        string(
             name: "SOLUTION_PATH",
             defaultValue: "WebApi.sln",
             description: "SOLUTION_PATH"
-        }
-        string{
+        )
+        string(
             name: "TEST_SOLUTION_PATH",
             defaultValue: "WebApi.Test/WebApi.Test.csproj",
             description: "TEST SOLUTION PATH"
-        }
-        choice{
+        )
+        choice(
             name: "RELEASE_ENVIRONMENT",
-            choices: "Build\nTest",
+            choices: ["Build","Test"],
             description: "Tick what you want to do"
-        }
+        )
     }
     stages{
         stage('Build'){
