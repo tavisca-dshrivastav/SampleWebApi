@@ -4,7 +4,7 @@ pipeline{
         RELEASE_ENVIRONMENT = "${params.RELEASE_ENVIRONMENT}"
     }
     agent {label 'master'}
-    paramenters{
+    parameters{
         string(
             name: "GIT_HTTPS_PATH",
             defaultValue: "https://github.com/tavisca-dshrivastav/SampleWebApi.git",
