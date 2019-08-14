@@ -17,16 +17,22 @@ pipeline{
             defaultValue: "WebApi.Test/WebApi.Test.csproj",
             description: "TEST SOLUTION PATH"
         )
+        
+        string(
+            name: "PROJECT_PATH",
+            defaultValue: "WebApi/WebApi.csproj",
+            description: "TEST SOLUTION PATH"
+        )
         choice(
             name: "RELEASE_ENVIRONMENT",
-            choices: ["Build","Test"],
+            choices: ["Build","Test", "Publish"],
             description: "Tick what you want to do"
         )
     }
     stages{
         stage('Build'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Build"}
+                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -41,7 +47,7 @@ pipeline{
         }
         stage('Test'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Test"}
+                expression{params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -51,6 +57,19 @@ pipeline{
                 '''
             }
         }
+        stage('Publish'){
+            when{
+                expression{params.RELEASE_ENVIRONMENT == "Publish"}
+            }
+            steps{
+                powershell '''
+                    echo '====================Build Project Start ================'
+                    dotnet publish ${PROJECT_PATH}
+                    echo '=====================Build Project Completed============'
+                '''
+            }
+        }
+
     }
     post{
         always{
