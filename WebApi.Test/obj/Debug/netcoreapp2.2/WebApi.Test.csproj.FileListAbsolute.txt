@@ -1,0 +1,17 @@
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\xunit.runner.utility.netcoreapp10.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.Test.deps.json
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.Test.runtimeconfig.json
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.Test.runtimeconfig.dev.json
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.Test.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.Test.pdb
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\bin\Debug\netcoreapp2.2\WebApi.pdb
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.csprojAssemblyReference.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.csproj.CoreCompileInputs.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.AssemblyInfoInputs.cache
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.AssemblyInfo.cs
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.csproj.CopyComplete
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.dll
+C:\Users\dshrivastav\Music\WebApi\WebApi.Test\obj\Debug\netcoreapp2.2\WebApi.Test.pdb
