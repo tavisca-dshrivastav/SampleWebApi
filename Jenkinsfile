@@ -32,7 +32,7 @@ pipeline{
                 expression{$RELEASE_ENVIRONMENT == "Build"}
             }
             steps{
-                sh '''
+                powershell '''
                     echo '====================Build Project Start ================'
                     dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
                     echo '=====================Build Project Completed============'
@@ -47,7 +47,7 @@ pipeline{
                 expression{$RELEASE_ENVIRONMENT == "Test"}
             }
             steps{
-                sh '''
+                powershell '''
                     echo '====================Build Project Start ================'
                     dotnet test ${TEST_SOLUTION_PATH}
                     echo '=====================Build Project Completed============'
