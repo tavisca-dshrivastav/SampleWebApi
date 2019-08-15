@@ -74,6 +74,7 @@ pipeline{
     post{
         always{
            archiveArtifacts artifacts : 'WebApi/bin/Release/netcoreapp2.2/*'
+           deleteDir()
         }
     }
 }
