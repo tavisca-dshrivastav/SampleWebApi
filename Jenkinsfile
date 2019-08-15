@@ -64,7 +64,7 @@ pipeline{
         }
         stage('Publish'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Publish"}
+                expression{params.RELEASE_ENVIRONMENT == "Publish" || params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps{
                 powershell '''
@@ -74,11 +74,25 @@ pipeline{
                 '''
             }
         }
+        
+        stage('Deploy'){
+            when{
+                expression{params.RELEASE_ENVIRONMENT == "Deploy"}
+            }
+            steps{
+                powershell '''
+                    echo '====================Build Project Start ================'
+                    dotnet WebApi/bin/Debug/netcoreapp2.2/publish/WebApi.dll
+                    echo '=====================Build Project Completed============'
+                '''
+            }
+        }
 
     }
     post{
         always{
-           archiveArtifacts artifacts : '**'
+           archiveArtifacts artifacts : 'WebApi/bin/Debug/netcoreapp2.2/publish/*'
+           deleteDir()
        }
     }
 }
