@@ -1,6 +1,5 @@
-
 pipeline{
-    agent {label 'master'}
+    agent { label 'master' }
     parameters{
         string(
             name: "GIT_HTTPS_PATH",
@@ -30,14 +29,14 @@ pipeline{
         )
         choice(
             name: "RELEASE_ENVIRONMENT",
-            choices: ["Build","Test", "Publish", "Deploy"],
+            choices: ["Build","Test", "Publish"],
             description: "Tick what you want to do"
         )
     }
     stages{
         stage('Build'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish" || params.RELEASE_ENVIRONMENT == "Deploy"}
+                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -52,7 +51,7 @@ pipeline{
         }
         stage('Test'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish" || params.RELEASE_ENVIRONMENT == "Deploy"}
+                expression{params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -64,7 +63,7 @@ pipeline{
         }
         stage('Publish'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Publish" || params.RELEASE_ENVIRONMENT == "Deploy"}
+                expression{params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -74,23 +73,11 @@ pipeline{
                 '''
             }
         }
-        
-        stage('Deploy'){
-            when{
-                expression{params.RELEASE_ENVIRONMENT == "Deploy"}
-            }
-            steps{
-                powershell '''
-                    echo '====================Build Project Start ================'
-                    dotnet WebApi/bin/Debug/netcoreapp2.2/publish/WebApi.dll
-                    echo '=====================Build Project Completed============'
-                '''
-            }
-        }
     }
     post{
         always{
            archiveArtifacts artifacts : 'WebApi/bin/Debug/netcoreapp2.2/publish/*'
+           zip : 'WebApi/bin/Debug/netcoreapp2.2/publish'
            deleteDir()
        }
     }
