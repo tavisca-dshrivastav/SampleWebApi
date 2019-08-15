@@ -73,12 +73,18 @@ pipeline{
                 '''
             }
         }
+        stage ('push artifact') {
+            when{
+                expression{params.RELEASE_ENVIRONMENT == "Publish"}
+            }
+            steps {
+                zip zipFile: 'publish.zip', archive: false, dir: 'WebApi/bin/Debug/netcoreapp2.2/publish'
+                archiveArtifacts artifacts: 'publish.zip', fingerprint: true
+            }
+        }
     }
     post{
         always{
-            echo '=====>zip<======'
-            zip zipfile: 'publish.zip', 'WebApi/bin/Debug/netcoreapp2.2/publish' 
-            archiveArtifacts artifacts : 'publish.zip'
             deleteDir()
        }
     }
