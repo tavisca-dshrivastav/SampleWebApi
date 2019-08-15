@@ -76,8 +76,7 @@ pipeline{
     }
     post{
         always{
-            
-            zipfile  'WebApi/bin/Debug/netcoreapp2.2/publish'
+            zip 'WebApi/bin/Debug/netcoreapp2.2/publish'
             archiveArtifacts artifacts : 'publish.zip'
             deleteDir()
        }
