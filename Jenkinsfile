@@ -13,6 +13,11 @@ pipeline{
             description: "SOLUTION_PATH"
         )
         string(
+            name: "DOTNETCORE_VERSION",
+            defaultValue: "2.2",
+            description: "Version"
+        )
+        string(
             name: "TEST_SOLUTION_PATH",
             defaultValue: "WebApi.Test/WebApi.Test.csproj",
             description: "TEST SOLUTION PATH"
@@ -40,7 +45,7 @@ pipeline{
                     dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
                     echo '=====================Build Project Completed============'
                     echo '====================Build Project Start ================'
-                    dotnet build ${SOLUTION_PATH} -p:Configuration=release -v:n
+                    dotnet build ${PPOJECT_PATH} 
                     echo '=====================Build Project Completed============'
                 '''
             }

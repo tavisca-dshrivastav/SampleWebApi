@@ -11,3 +11,4 @@ C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Debug\netcoreapp2.2\WebApi.Assembly
 C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Debug\netcoreapp2.2\WebApi.RazorTargetAssemblyInfo.cache
 C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Debug\netcoreapp2.2\WebApi.dll
 C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Debug\netcoreapp2.2\WebApi.pdb
+C:\Users\dshrivastav\Music\WebApi\WebApi\obj\Debug\netcoreapp2.2\WebApi.csprojAssemblyReference.cache
