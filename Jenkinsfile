@@ -30,7 +30,7 @@ pipeline{
         )
         choice(
             name: "RELEASE_ENVIRONMENT",
-            choices: ["Build","Test", "Publish"],
+            choices: ["Build","Test", "Publish", "Deploy"],
             description: "Tick what you want to do"
         )
     }
@@ -87,7 +87,6 @@ pipeline{
                 '''
             }
         }
-
     }
     post{
         always{
