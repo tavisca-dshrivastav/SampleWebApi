@@ -73,7 +73,7 @@ pipeline{
     }
     post{
         always{
-           archiveArtifacts '**'
+           archiveArtifacts 'WebApi\bin\Release\netcoreapp2.2\*'
         }
     }
 }
