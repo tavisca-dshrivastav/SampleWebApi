@@ -94,7 +94,7 @@ pipeline{
                                 ENV NAME ${ENV_NAME}\n
                                 CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 powershell '''
-                    docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=WebApi:v0.0.1
+                    docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=webapi:v0.0.1
                 '''
             }
         }
