@@ -69,15 +69,19 @@ pipeline{
                 powershell '''
                     echo '====================Build Project Start ================'
                     dotnet publish ${PROJECT_PATH}
+                    
                     echo '=====================Build Project Completed============'
                 '''
             }
         }
-        stage ('push artifact') {
+        stage ('Creating Docker Image') {
             when{
                 expression{params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps {
+                powershell '''
+                touch 'Dockerfile'
+                '''
                 zip zipFile: 'publish.zip', archive: false, dir: 'WebApi/bin/Debug/netcoreapp2.2/publish'
                 archiveArtifacts artifacts: 'publish.zip', fingerprint: true
             }
