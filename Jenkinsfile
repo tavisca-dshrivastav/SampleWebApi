@@ -90,9 +90,9 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps {
-                writeFile file: 'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text:'FROM ${DOCKERFILE}\n
+                writeFile file: 'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text:'''FROM ${DOCKERFILE}\n
                                 ENV NAME ${ENV_NAME}\n
-                                CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'
+                                CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 powershell '''
                     docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=WebApi:v0.0.1
                 '''
