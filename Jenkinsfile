@@ -95,6 +95,8 @@ pipeline{
                                 CMD ["dotnet", "WebApi.dll"]\n'''
                 powershell '''
                     docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=webapi:v0.0.1
+                    docker tag  webapi:v0.0.1 dshrivastav/webapi:v0.0.1
+                    docker push dshrivastav/webapi:v0.0.1
                 '''
             }
         }
