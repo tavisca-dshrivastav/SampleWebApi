@@ -1,8 +1,8 @@
 pipeline{
     agent { label 'master' }
     environment {
-    registry = "dshrivastav/httpapplication"
-    registryCredential = "docker"
+        registry = "dshrivastav/httpapplication"
+        registryCredential = "docker"
     }
 
     parameters{
@@ -47,7 +47,14 @@ pipeline{
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
         )
-        
+        string(
+            name: "DOCKER_USER_NAME",
+            description: "Enter Docker hub Username"
+        )
+        string(
+            name: "DOCKER_PASSWORD",
+            description:  "Enter Docker hub Password"
+        )
         choice(
             name: "RELEASE_ENVIRONMENT",
             choices: ["Build","Test", "Publish"],
