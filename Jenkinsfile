@@ -47,9 +47,11 @@ pipeline{
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
         )
-        string(
-            name: "DOCKER_USER_NAME",
-            description: "Enter Docker hub Username"
+        
+        choice(
+            name: "RELEASE_ENVIRONMENT",
+            choices: ["Build","Test", "Publish"],
+            description: "Tick what you want to do"
         )
     }
     stages{
