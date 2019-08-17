@@ -7,6 +7,10 @@ pipeline{
             description: "GIT HTTPS PATH"
         )
         string(
+            name: "Project_Name",
+            defaultValue: "Api"
+        )
+        string(
             name: "SOLUTION_PATH",
             defaultValue: "WebApi.sln",
             description: "SOLUTION_PATH"
@@ -37,6 +41,14 @@ pipeline{
          string(
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
+        )
+        string(
+            name: "DOCKER_USER_NAME",
+            description: "Enter Docker hub Username"
+        )
+        string(
+            name: "DOCKER_PASSWORD",
+            description:  "Enter Docker hub Password"
         )
         choice(
             name: "RELEASE_ENVIRONMENT",
@@ -90,13 +102,15 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps {
-                writeFile file: 'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text:'''FROM mcr.microsoft.com/dotnet/core/aspnet\n
-                                ENV NAME Api\n
-                                CMD ["dotnet", "WebApi.dll"]\n'''
+                writeFile file: 'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
+                        FROM mcr.microsoft.com/dotnet/core/aspnet\n
+                        ENV NAME ${Project_Name}\n
+                        CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 powershell '''
-                    docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=webapi:v0.0.2
-                    docker tag  webapi:v0.0.2 dshrivastav/webapi:v0.0.2
-                    docker push dshrivastav/webapi:v0.0.2
+                    docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}
+                    docker tag ${Project Name}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}
+                    docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}
+                    docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}
                 '''
             }
         }
