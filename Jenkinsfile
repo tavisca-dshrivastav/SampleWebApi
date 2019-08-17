@@ -106,12 +106,12 @@ pipeline{
                         FROM mcr.microsoft.com/dotnet/core/aspnet\n
                         ENV NAME ${Project_Name}\n
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
-                powershell '''
-                    docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}
-                    docker tag ${Project_Name}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}
-                    docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}
-                    docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}
-                '''
+                
+                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}"
+                    
+                powershell "docker tag ${Project_Name}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
+                   powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
+                   powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
             }
         }
     }
