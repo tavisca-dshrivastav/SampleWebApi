@@ -1,5 +1,10 @@
 pipeline{
     agent { label 'master' }
+    environment {
+    registry = "dshrivastav/httpapplication"
+    registryCredential = "docker"
+    }
+
     parameters{
         string(
             name: "GIT_HTTPS_PATH",
@@ -45,15 +50,6 @@ pipeline{
         string(
             name: "DOCKER_USER_NAME",
             description: "Enter Docker hub Username"
-        )
-        string(
-            name: "DOCKER_PASSWORD",
-            description:  "Enter Docker hub Password"
-        )
-        choice(
-            name: "RELEASE_ENVIRONMENT",
-            choices: ["Build","Test", "Publish"],
-            description: "Tick what you want to do"
         )
     }
     stages{
@@ -107,11 +103,9 @@ pipeline{
                         ENV NAME ${Project_Name}\n
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 
-                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}"
-                    
+                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}"    
                 powershell "docker tag ${Project_Name}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
-                   powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
-                   powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
+                powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
             }
         }
     }
