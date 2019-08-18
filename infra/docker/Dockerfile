@@ -1,5 +1,5 @@
 
-# Use an official Python runtime as a parent image
+# Use an official ASP.net runtime as a parent image
 FROM mcr.microsoft.com/dotnet/core/aspnet
 
 # Set the working directory to /app
