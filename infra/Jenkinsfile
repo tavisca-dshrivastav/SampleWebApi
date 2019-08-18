@@ -72,7 +72,8 @@ pipeline{
             }
             steps {
                 
-                powershell "Move-Item WebApi/bin/Debug/netcoreapp2.2/publish/. infra/"
+                
+                powershell "Copy-Item WebApi/bin/Debug/netcoreapp2.2/publish/* infra/ -Recurse"
                 powershell "docker build infra --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
                 powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
                 powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
