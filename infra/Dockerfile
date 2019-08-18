@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/dotnet/core/aspnet
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-COPY WebApi/bin/Debug/netcoreapp2.2/publish /app
+COPY . /app
 
 
 # Make port 8888 available to the world outside this container
