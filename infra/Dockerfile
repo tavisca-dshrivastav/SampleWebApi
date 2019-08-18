@@ -15,4 +15,4 @@ EXPOSE 8888
 ENV NAME api
 
 # Run app.py when the container launches
-CMD ["dotnet", "webapi.dll"]
+CMD ["dotnet", "WebApi.dll"]
