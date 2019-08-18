@@ -68,7 +68,7 @@ pipeline{
         
         stage ('Deploy') {
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Publish"}
+                expression{params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps {
                 writeFile file: 
