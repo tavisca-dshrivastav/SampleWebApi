@@ -1,30 +1,26 @@
 pipeline{
     agent { label 'master' }
-    environment {
-        registry = "dshrivastav/httpapplication"
-        registryCredential = "docker"
-    }
 
     parameters{
+   
         string(
-            name: "GIT_HTTPS_PATH",
-            defaultValue: "https://github.com/tavisca-dshrivastav/SampleWebApi.git",
-            description: "GIT HTTPS PATH"
+            name: "DOCKER_USER_NAME",
+            description: "Enter Docker hub Username"
         )
         string(
-            name: "Project_Name",
-            defaultValue: "Api"
+            name: "DOCKER_PASSWORD",
+            description:  "Enter Docker hub Password"
+        )
+        string(
+            name: "DOCKER_REPO",
+            defaultValue: "api"
         )
         string(
             name: "SOLUTION_PATH",
             defaultValue: "WebApi.sln",
             description: "SOLUTION_PATH"
         )
-        string(
-            name: "DOTNETCORE_VERSION",
-            defaultValue: "2.2",
-            description: "Version"
-        )
+   
         string(
             name: "TEST_SOLUTION_PATH",
             defaultValue: "WebApi.Test/WebApi.Test.csproj",
@@ -35,86 +31,56 @@ pipeline{
             name: "PROJECT_PATH",
             defaultValue: "WebApi/WebApi.csproj",
         )
-         string(
-            name: "DOCKERFILE",
-            defaultValue: "mcr.microsoft.com/dotnet/core/aspnet",
-        )
-         string(
-            name: "ENV_NAME",
-            defaultValue: "Api",
-        )
+        
          string(
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
         )
-        string(
-            name: "DOCKER_USER_NAME",
-            description: "Enter Docker hub Username"
-        )
-        string(
-            name: "DOCKER_PASSWORD",
-            description:  "Enter Docker hub Password"
-        )
+        
         choice(
             name: "RELEASE_ENVIRONMENT",
-            choices: ["Build","Test", "Publish"],
+            choices: ["Build","Deploy"],
             description: "Tick what you want to do"
         )
     }
     stages{
         stage('Build'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
+                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps{
                 powershell '''
-                    echo '====================Build Project Start ================'
+                    echo '====================Restore Start ================'
                     dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
-                    echo '=====================Build Project Completed============'
-                    echo '====================Build Project Start ================'
+                    echo '=====================Restore  Completed============'
+                    echo '====================Build Start ================'
                     dotnet build ${PPOJECT_PATH} 
-                    echo '=====================Build Project Completed============'
-                '''
-            }
-        }
-        stage('Test'){
-            when{
-                expression{params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
-            }
-            steps{
-                powershell '''
-                    echo '====================Build Project Start ================'
+                    echo '=====================Build  Completed============'
+                    echo '====================Build  Start ================'
                     dotnet test ${TEST_SOLUTION_PATH}
-                    echo '=====================Build Project Completed============'
-                '''
-            }
-        }
-        stage('Publish'){
-            when{
-                expression{params.RELEASE_ENVIRONMENT == "Publish"}
-            }
-            steps{
-                powershell '''
-                    echo '====================Build Project Start ================'
+                    echo '=====================Build Completed============'
+                    echo '====================Publish Start ================'
                     dotnet publish ${PROJECT_PATH}
-                    
-                    echo '=====================Build Project Completed============'
-                '''
+                    echo '=====================Publish Completed============'
+                    '''
             }
         }
-        stage ('Creating Docker Image') {
+        
+        stage ('Deploy') {
             when{
                 expression{params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps {
-                writeFile file: 'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
+                writeFile file: 
+                        'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
                         FROM mcr.microsoft.com/dotnet/core/aspnet\n
                         ENV NAME ${Project_Name}\n
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 
-                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}:${BUILD_NUMBER}"    
-                powershell "docker tag ${Project_Name}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
-                powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}:${BUILD_NUMBER}"
+                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
+                powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
+                powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
+                powershell "docker push ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
             }
         }
     }
