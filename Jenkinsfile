@@ -78,7 +78,7 @@ pipeline{
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 
                 powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
-                powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
+               // powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
                 powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
                 powershell "docker push ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
             }
