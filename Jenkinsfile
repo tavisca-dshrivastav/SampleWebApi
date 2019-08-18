@@ -74,12 +74,12 @@ pipeline{
                 writeFile file: 
                         'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
                         FROM mcr.microsoft.com/dotnet/core/aspnet\n
-                        ENV NAME ${Project_Name}\n
+                        ENV NAME ${DOCKER_REPO}\n
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 
                 powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
-                powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
                 powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
+                powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
                 powershell "docker push ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
             }
         }
