@@ -36,24 +36,14 @@ pipeline{
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
         )
-        
-         string(
-            name: "SONAR_PATH",
-            defaultValue: "C:/sonar/SonarScanner.MSBuild.dll",
-        )
-         string(
-            name: "SONAR_HOST",
-            defaultValue: "http://localhost:9000",
-        )
+    
+     
          string(
             name: "SONAR_TOKEN",
             defaultValue: "673159a57589c90cc8c2011b00386c56635dc1c8",
         )
         
-         string(
-            name: "SONAR_PROJECT_NAME",
-            defaultValue: "SimpleWebApiTest",
-        )
+      
         choice(
             name: "RELEASE_ENVIRONMENT",
             choices: ["Build","Deploy"],
@@ -66,9 +56,10 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps{
-                powershell "dotnet C:/sonar/SonarScanner.MSBuild.dll begin /k:${SONAR_PROJECT_NAME} /d:sonar.host.url=${SONAR_HOST} /d:sonar.login=${SONAR_TOKEN}"
+            
 
                 powershell '''
+                    dotnet C:/sonar/SonarScanner.MSBuild.dll begin /k:SimpleWebApiTest /d:sonar.host.url="http://localhost:9000" /d:sonar.login=${SONAR_TOKEN}
                     echo '====================Restore Start ================'
                     dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
                     echo '=====================Restore  Completed============'
@@ -80,7 +71,7 @@ pipeline{
                     echo '=====================Build Completed============' 
                     '''
 
-                powershell "dotnet ${SONAR_PATH} end /d:sonar.login=${SONAR_TOKEN}"
+                powershell "dotnet C:/sonar/SonarScanner.MSBuild.dll end /d:sonar.login=${SONAR_TOKEN}"
                 powershell'''
                     echo '====================Publish Start ================'
                     dotnet publish ${PROJECT_PATH}
