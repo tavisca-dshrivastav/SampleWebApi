@@ -36,7 +36,14 @@ pipeline{
             name: "SOLUTION_DLL_FILE",
             defaultValue: "WebApi.dll",
         )
+    
+     
+         string(
+            name: "SONAR_TOKEN",
+            defaultValue: "673159a57589c90cc8c2011b00386c56635dc1c8",
+        )
         
+      
         choice(
             name: "RELEASE_ENVIRONMENT",
             choices: ["Build","Deploy"],
@@ -49,20 +56,19 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps{
-                powershell '''
-                    echo '====================Restore Start ================'
-                    dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
-                    echo '=====================Restore  Completed============'
-                    echo '====================Build Start ================'
-                    dotnet build ${PPOJECT_PATH} 
-                    echo '=====================Build  Completed============'
-                    echo '====================Build  Start ================'
-                    dotnet test ${TEST_SOLUTION_PATH}
-                    echo '=====================Build Completed============'
+            
+
+                powershell( script:  'dotnet C:/sonar/SonarScanner.MSBuild.dll begin /k:SimpleWebApiTest /d:sonar.host.url="http://localhost:9000" /d:sonar.login=673159a57589c90cc8c2011b00386c56635dc1c8')
+                    powershell(script: 'dotnet build') 
+                    powershell(script: 'dotnet test') 
+                  
+                powershell "dotnet C:/sonar/SonarScanner.MSBuild.dll end /d:sonar.login=673159a57589c90cc8c2011b00386c56635dc1c8"
+                powershell'''
                     echo '====================Publish Start ================'
                     dotnet publish ${PROJECT_PATH}
                     echo '=====================Publish Completed============'
-                    '''
+                '''
+    
             }
         }
         
@@ -71,21 +77,17 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps {
-                writeFile file: 
-                        'WebApi/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
-                        FROM mcr.microsoft.com/dotnet/core/aspnet\n
-                        ENV NAME ${DOCKER_REPO}\n
-                        CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
-                
-                powershell "docker build WebApi/bin/Debug/netcoreapp2.2/publish/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
-               // powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
+                                
+                powershell "Copy-Item WebApi/bin/Debug/netcoreapp2.2/publish/* infra/docker/ -Recurse"
+                powershell "docker build infra/docker/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
+                powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
                 powershell "docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
                 powershell "docker push ${DOCKER_USER_NAME}/${DOCKER_REPO}:${BUILD_NUMBER}"
             }
         }
     }
     post{
-        always{
+        success{
             deleteDir()
        }
     }
