@@ -50,6 +50,7 @@ pipeline{
             }
             steps{
                 powershell '''
+                    dotnet C:\sonar\SonarScanner.MSBuild.dll begin /k:"SimpleWebApiTest" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="673159a57589c90cc8c2011b00386c56635dc1c8"
                     echo '====================Restore Start ================'
                     dotnet restore ${SOLUTION_PATH} --source https://api.nuget.org/v3/index.json
                     echo '=====================Restore  Completed============'
@@ -62,6 +63,7 @@ pipeline{
                     echo '====================Publish Start ================'
                     dotnet publish ${PROJECT_PATH}
                     echo '=====================Publish Completed============'
+                    dotnet C:\sonar\SonarScanner.MSBuild.dll end /d:sonar.login="673159a57589c90cc8c2011b00386c56635dc1c8"
                     '''
             }
         }
@@ -71,8 +73,7 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps {
-                
-                
+                                
                 powershell "Copy-Item WebApi/bin/Debug/netcoreapp2.2/publish/* infra/docker/ -Recurse"
                 powershell "docker build infra/docker/ --tag=${DOCKER_REPO}:${BUILD_NUMBER}"    
                 powershell "docker login -u ${DOCKER_USER_NAME} -p ${DOCKER_PASSWORD}"
